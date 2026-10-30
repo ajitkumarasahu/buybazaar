@@ -25,6 +25,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->api(prepend: [
             AssignRequestId::class,
         ]);
+
+        // Short names we can use in routes.
+        $middleware->alias([    
+            'active' => \App\Http\Middleware\EnsureUserIsActive::class,
+        ]);
     })
 
     ->withExceptions(function (Exceptions $exceptions): void {
