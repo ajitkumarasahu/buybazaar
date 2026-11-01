@@ -26,10 +26,13 @@ class AppServiceProvider extends ServiceProvider
         // Rate limiting for login attempts to prevent brute-force attacks.
         RateLimiter::for('login', function (Request $request) {
             
-            // Limit to 5 login attempts per minute per email and IP address combination.
-            return Limit::perMinute(5)->by(
-                Str::lower((string) $request->input('email')).'|'.$request->ip()
-            );
+            // Limit the number of login attempts to 5 per minute based on the user's email and IP address.
+            $email = $request->input('email');
+            // Ensure the email is a string and convert it to lowercase for consistent rate limiting.
+            $email = is_string($email) ? Str::lower($email) : '';
+            // Combine the email and IP address to create a unique key for rate limiting.
+            //if the email is not a string, it will be treated as an empty string,
+            return Limit::perMinute(5)->by($email.'|'.$request->ip());
         });
     }
 }

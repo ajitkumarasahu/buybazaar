@@ -13,12 +13,24 @@ class RegisterRequest extends FormRequest
         return true; // anyone may register
     }
 
+    // protected function prepareForValidation(): void
+    // {
+    //     // "Ravi@Mail.com " and "ravi@mail.com" must be the same account.
+    //     if ($this->has('email')) {
+    //         //convert email to lowercase and trim whitespace before validation
+    //         $this->merge(['email' => strtolower(trim((string) $this->input('email')))]);
+    //     }
+    // }
+    
+    /**
+     * Prepare the data for validation.
+     * This method trims and lowercases the email input to ensure consistency.
+     */
     protected function prepareForValidation(): void
     {
-        // "Ravi@Mail.com " and "ravi@mail.com" must be the same account.
-        if ($this->has('email')) {
-            //convert email to lowercase and trim whitespace before validation
-            $this->merge(['email' => strtolower(trim((string) $this->input('email')))]);
+        //if the email is a string, trim whitespace and convert to lowercase before validation
+        if (is_string($this->input('email'))) {
+            $this->merge(['email' => strtolower(trim($this->input('email')))]);
         }
     }
 

@@ -22,14 +22,26 @@ class LoginRequest extends FormRequest
         return true;
     }
 
+    // /**
+    //  * Prepare the data for validation.
+    //  * This method trims and lowercases the email input to ensure consistency.
+    //  */
+    // protected function prepareForValidation(): void
+    // {
+    //     if ($this->has('email')) {
+    //         $this->merge(['email' => strtolower(trim((string) $this->input('email')))]);
+    //     }
+    // }
+
     /**
      * Prepare the data for validation.
      * This method trims and lowercases the email input to ensure consistency.
      */
     protected function prepareForValidation(): void
     {
-        if ($this->has('email')) {
-            $this->merge(['email' => strtolower(trim((string) $this->input('email')))]);
+        //
+        if (is_string($this->input('email'))) {
+            $this->merge(['email' => strtolower(trim($this->input('email')))]);
         }
     }
 
