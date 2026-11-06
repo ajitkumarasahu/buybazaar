@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -35,6 +36,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
     ];
 
@@ -51,6 +53,15 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Defines a one-to-many relationship between User and Address.
+     * A user can have multiple addresses, but each address belongs to one user.
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
+    
     /**
      * Checks if the user account is active.
      * Returns true if the status is 'active', false otherwise.
